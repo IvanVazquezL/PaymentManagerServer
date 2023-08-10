@@ -15,14 +15,31 @@ export const createBill = async( req, res = response ) => {
     } catch (error) {
         res.status(500).json({
             ok: false,
-            msg: 'Error creating bill'
+            msg: 'Error creating bill',
+            error: JSON.stringify(error),
         });
     }
 }
 
-export const getBills = async( req, res = response ) => {
+export const getBillById = async(req, res = response) => {
+    const id  = req.params.id;
+
     try {
-        const bills = await Bill.find({}, '');
+        const bill = await Bill.findById( id );
+        res.json({
+            ok: true,
+            bill
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const getBillsByUserId = async( req, res = response ) => {
+    const id  = req.params.id;
+
+    try {
+        const bills = await Bill.find({ userId: id }, '');
         res.json({
             ok: true,
             bills

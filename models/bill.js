@@ -1,25 +1,21 @@
 import { Schema, model } from 'mongoose';
 
 const BillSchema = Schema({
-    username: {
+    userId: {
         type: String,
-        required: true,
-        unique: true,
+        required: true
     },
     fechaDePagoIdentifier: {
       type: String,
-      required: true,
-      unique: true,
+      required: true
     },
     nombre: {
         type: String,
-        required: true,
-        unique: true,
+        required: true
     },
     tipoDeRecibo: {
         type: String,
-        required: true,
-        unique: true,
+        required: true
     },
     fechaDePago: {
         type: Date,
@@ -79,6 +75,11 @@ const BillSchema = Schema({
         type: Number
     }
 });
+
+BillSchema.index(
+    { userId: 1, fechaDePagoIdentifier: 1, nombre: 1, tipoDeRecibo: 1 },
+    { unique: true }
+  );
 
 BillSchema.method('toJSON', function() {
   const { __v, _id, password, ...object } = this.toObject();
